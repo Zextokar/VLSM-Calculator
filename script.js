@@ -52,12 +52,23 @@ function calculateVLSM(subnets) {
         const prefixLength = 32 - bitsNeeded;
         const subnetSize = Math.pow(2, bitsNeeded);
 
+        const startIp = binaryToIp(currentAddress);
+        const endIp = binaryToIp(addBinary(currentAddress, subnetSize - 1));
+
+        // Calcular la dirección de broadcast
+        const broadcastAddress = binaryToIp(addBinary(currentAddress, subnetSize - 1));
+
+        // Calcular el rango utilizable (excluyendo la dirección de red y la de broadcast)
+        const usableRange = `${binaryToIp(addBinary(currentAddress, 1))} - ${binaryToIp(addBinary(currentAddress, subnetSize - 2))}`;
+
         const subnet = {
             subnet: `Subred ${index + 1}`,
             hosts: hosts,
             mask: prefixLength,
-            startIp: binaryToIp(currentAddress),
-            endIp: binaryToIp(addBinary(currentAddress, subnetSize - 1))
+            startIp: startIp,
+            endIp: endIp,
+            usableRange: usableRange,
+            broadcast: broadcastAddress
         };
 
         currentAddress = addBinary(currentAddress, subnetSize);
@@ -66,7 +77,6 @@ function calculateVLSM(subnets) {
 
     return results;
 }
-
 
 function ipToBinary(ip) {
     return ip.split('.').map(Number).map(dec => dec.toString(2).padStart(8, '0')).join('');
@@ -94,7 +104,7 @@ function displayResults(results) {
 
     // Encabezados de columna
     const headerRow = document.createElement('tr');
-    const headers = ['Subred', 'Hosts', 'Máscara de Subred (IP)', 'Máscara de Subred (Prefijo)', 'Inicio IP', 'Fin IP'];
+    const headers = ['Subred', 'Hosts', 'Máscara', 'Slash', 'Inicio IP', 'Fin IP', 'Rango Utilizable', 'Broadcast'];
     headers.forEach(headerText => {
         const header = document.createElement('th');
         header.textContent = headerText;
@@ -114,7 +124,9 @@ function displayResults(results) {
             prefixLengthToMask(subnet.mask),
             `/${subnet.mask}`,
             subnet.startIp,
-            subnet.endIp
+            subnet.endIp,
+            subnet.usableRange,
+            subnet.broadcast
         ];
         data.forEach(text => {
             const cell = document.createElement('td');
@@ -133,6 +145,7 @@ function displayResults(results) {
         responsive: true
     });
 }
+
 
 function prefixLengthToMask(prefixLength) {
     const binaryMask = '1'.repeat(prefixLength).padEnd(32, '0');

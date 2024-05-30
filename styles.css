@@ -8,8 +8,8 @@ body {
 
 /* Contenedor principal */
 .container {
-    width: 90%; /* Cambia el ancho a un valor porcentual para que se ajuste a diferentes tamaños de pantalla */
-    max-width: 800px; /* Establece un ancho máximo para evitar que el contenedor se estire demasiado en pantallas grandes */
+    width: 100%;
+    max-width: 1200px;
     margin: 50px auto;
     padding: 20px;
     background-color: #ffffff;
