@@ -1,0 +1,125 @@
+/* Estilo general */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+    width: 90%; /* Cambia el ancho a un valor porcentual para que se ajuste a diferentes tamaños de pantalla */
+    max-width: 800px; /* Establece un ancho máximo para evitar que el contenedor se estire demasiado en pantallas grandes */
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    color: #343a40;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #6c757d;
+    padding-bottom: 10px;
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #495057;
+}
+
+input {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #495057;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho del elemento */
+}
+
+input:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+/* Botones */
+button {
+    padding: 10px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+#addSubnetButton {
+    background-color: #007bff;
+}
+
+#addSubnetButton:hover {
+    background-color: #0056b3;
+}
+
+/* Resultados */
+#results {
+    margin-top: 20px;
+}
+
+.subnet-result {
+    padding: 15px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.subnet-result:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+.subnet-result strong {
+    color: #343a40;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilos para la tabla */
+
+
+/* Estilos Botones */
+.buttons-container {
+    display: flex;
+}
+
+.buttons-container button {
+    margin-right: 10px; /* Ajusta el margen entre los botones según sea necesario */
+}
+
+.delete-host-button {
+    background-color: red;
+}
