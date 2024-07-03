@@ -64,11 +64,13 @@ function calculateVLSM(subnets) {
         const subnet = {
             subnet: `Subred ${index + 1}`,
             hosts: hosts,
-            mask: prefixLength,
+            mask: prefixLengthToMask(prefixLength),
+            slash: `/${prefixLength}`,
             startIp: startIp,
             endIp: endIp,
             usableRange: usableRange,
-            broadcast: broadcastAddress
+            broadcast: broadcastAddress,
+            wildcard: calculateWildcard(prefixLengthToMask(prefixLength))
         };
 
         currentAddress = addBinary(currentAddress, subnetSize);
@@ -104,7 +106,7 @@ function displayResults(results) {
 
     // Encabezados de columna
     const headerRow = document.createElement('tr');
-    const headers = ['Subred', 'Hosts', 'Máscara', 'Slash', 'Inicio IP', 'Fin IP', 'Rango Utilizable', 'Broadcast'];
+    const headers = ['Subred', 'Hosts', 'Máscara', 'Slash', 'Inicio IP', 'Fin IP', 'Rango Utilizable', 'Broadcast', 'Wildcard'];
     headers.forEach(headerText => {
         const header = document.createElement('th');
         header.textContent = headerText;
@@ -121,12 +123,13 @@ function displayResults(results) {
         const data = [
             subnet.subnet,
             subnet.hosts,
-            prefixLengthToMask(subnet.mask),
-            `/${subnet.mask}`,
+            subnet.mask,
+            subnet.slash,
             subnet.startIp,
             subnet.endIp,
             subnet.usableRange,
-            subnet.broadcast
+            subnet.broadcast,
+            subnet.wildcard
         ];
         data.forEach(text => {
             const cell = document.createElement('td');
@@ -146,12 +149,13 @@ function displayResults(results) {
     });
 }
 
-
 function prefixLengthToMask(prefixLength) {
     const binaryMask = '1'.repeat(prefixLength).padEnd(32, '0');
-    const octets = binaryMask.match(/.{1,8}/g).map(bin => parseInt(bin, 2));
-    const ipMask = octets.map((octet, index) => {
-        return index < 3 ? octet.toString() : octet.toString().padEnd(3, '0');
-    });
-    return ipMask.join('.');
+    return binaryToIp(binaryMask);
+}
+
+function calculateWildcard(mask) {
+    const binaryMask = ipToBinary(mask);
+    const wildcardBinary = binaryMask.split('').map(bit => bit === '1' ? '0' : '1').join('');
+    return binaryToIp(wildcardBinary);
 }
